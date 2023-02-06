@@ -1,0 +1,1166 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1400,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "name": "IBI",
+        "connectionString": "Provider=MSDASQL;Persist Security Info=False;DSN=iBI DaaS",
+        "impersonationMode": "impersonateServiceAccount",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "Others"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "dates",
+        "isHidden": true,
+        "columns": [
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "Quarter",
+            "dataType": "string",
+            "sourceColumn": "Quarter",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "sourceColumn": "Month",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WW",
+            "dataType": "int64",
+            "sourceColumn": "WW",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WW start date",
+            "dataType": "dateTime",
+            "sourceColumn": "WW start date",
+            "formatString": "General Date",
+            "sourceProviderType": "Date"
+          },
+          {
+            "name": "YY'WW",
+            "dataType": "string",
+            "sourceColumn": "YY'WW",
+            "sortByColumn": "WW",
+            "sourceProviderType": "VarChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dates",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "select distinct [Intel Year] as [Year], [Intel Quarter] as [Quarter], [Intel Month]as [Month],",
+                "[Intel Year-Work Week] as [WW], [Intel Work Week Start Date] as [WW start date],",
+                "right([Intel Year],2)+''''+ right([Intel Year-Work Week],2) as [YY'WW]",
+                "from  [V_TIME_DAY]",
+                "where [Intel Year-Work Week] between datepart(ww,dateadd(year,-3,getdate()))  and  datepart(ww,dateadd(year,3,getdate())) ",
+                "order by [WW start date] asc"
+              ],
+              "dataSource": "IBI"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select distinct [Intel Year] as [Year], [Intel Quarter] as [Quarter], [Intel Month]as [Month],",
+                  "[Intel Year-Work Week] as [WW], [Intel Work Week Start Date] as [WW start date],",
+                  "right([Intel Year],2)+''''+ right([Intel Year-Work Week],2) as [YY'WW]",
+                  "from  [V_TIME_DAY]",
+                  "where [Intel Year-Work Week] between datepart(ww,dateadd(year,-3,getdate()))  and  datepart(ww,dateadd(year,3,getdate())) ",
+                  "order by [WW start date] asc</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "select distinct [Intel Year] as [Year], [Intel Quarter] as [Quarter], [Intel Month]as [Month],",
+              "[Intel Year-Work Week] as [WW], [Intel Work Week Start Date] as [WW start date],",
+              "right([Intel Year],2)+''''+ right([Intel Year-Work Week],2) as [YY'WW]",
+              "from  [V_TIME_DAY]",
+              "where [Intel Year-Work Week] between datepart(ww,dateadd(year,-3,getdate()))  and  datepart(ww,dateadd(year,3,getdate())) ",
+              "order by [WW start date] asc"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Dates"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select distinct [Intel Year] as [Year], [Intel Quarter] as [Quarter], [Intel Month]as [Month],",
+              "[Intel Year-Work Week] as [WW], [Intel Work Week Start Date] as [WW start date],",
+              "right([Intel Year],2)+''''+ right([Intel Year-Work Week],2) as [YY'WW]",
+              "from  [V_TIME_DAY]",
+              "where [Intel Year-Work Week] between datepart(ww,dateadd(year,-3,getdate()))  and  datepart(ww,dateadd(year,3,getdate())) ",
+              "order by [WW start date] asc</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "worker_public",
+        "columns": [
+          {
+            "name": "User_Name",
+            "dataType": "string",
+            "sourceColumn": "User_Name",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "User_WWID",
+            "dataType": "string",
+            "sourceColumn": "User_WWID",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "User_Idsid",
+            "dataType": "string",
+            "sourceColumn": "User_Idsid",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "departmentNm",
+            "dataType": "string",
+            "sourceColumn": "departmentNm"
+          },
+          {
+            "name": "IsIPG",
+            "dataType": "string",
+            "sourceColumn": "IsIPG"
+          },
+          {
+            "name": "IsIPGCostCenter",
+            "dataType": "string",
+            "sourceColumn": "IsIPGCostCenter"
+          },
+          {
+            "name": "CostCenterNm",
+            "dataType": "string",
+            "sourceColumn": "CostCenterNm"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "worker_public",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "select max([ccMailName]) as [User_Name],max([WWID]) as [User_WWID],[ShortID]as [User_Idsid],  departmentNm, [CostCenterNm] ",
+                ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764')THEN 'IPG'",
+                "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%'or departmentNm like '%VICE%' THEN 'IPG' ELSE 'Non-IPG' END  as IsIPG",
+                ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764') THEN 'IPG'",
+                "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%' or departmentNm like '%VICE%'THEN 'IPG' ELSE  [CostCenterNm] END as IsIPGCostCenter",
+                "from [WORKER_PUBLIC]",
+                "where [IsActive] =1",
+                "and [ShortID] is not null",
+                "",
+                "group by [ShortID],  departmentNm,  [CostCenterNm]"
+              ],
+              "dataSource": "IBI"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select max([ccMailName]) as [User_Name],max([WWID]) as [User_WWID],[ShortID]as [User_Idsid],  departmentNm, [CostCenterNm] ",
+                  ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764')THEN 'IPG'",
+                  "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%'or departmentNm like '%VICE%' THEN 'IPG' ELSE 'Non-IPG' END  as IsIPG",
+                  ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764') THEN 'IPG'",
+                  "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%' or departmentNm like '%VICE%'THEN 'IPG' ELSE  [CostCenterNm] END as IsIPGCostCenter",
+                  "from [WORKER_PUBLIC]",
+                  "where [IsActive] =1",
+                  "and [ShortID] is not null",
+                  "",
+                  "group by [ShortID],  departmentNm,  [CostCenterNm]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "select max([ccMailName]) as [User_Name],max([WWID]) as [User_WWID],[ShortID]as [User_Idsid],  departmentNm, [CostCenterNm] ",
+              ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764')THEN 'IPG'",
+              "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%'or departmentNm like '%VICE%' THEN 'IPG' ELSE 'Non-IPG' END  as IsIPG",
+              ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764') THEN 'IPG'",
+              "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%' or departmentNm like '%VICE%'THEN 'IPG' ELSE  [CostCenterNm] END as IsIPGCostCenter",
+              "from [WORKER_PUBLIC]",
+              "where [IsActive] =1",
+              "and [ShortID] is not null",
+              "",
+              "group by [ShortID],  departmentNm,  [CostCenterNm]"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "worker_public"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select max([ccMailName]) as [User_Name],max([WWID]) as [User_WWID],[ShortID]as [User_Idsid],  departmentNm, [CostCenterNm] ",
+              ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764')THEN 'IPG'",
+              "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%'or departmentNm like '%VICE%' THEN 'IPG' ELSE 'Non-IPG' END  as IsIPG",
+              ", CASE WHEN [CostCenterNm] like 'IPG%' or costcenterNm  in('CPE LCH PRC 764 GNA', 'XCC Gfx Adj Ch 764') THEN 'IPG'",
+              "            WHEN departmentNm like 'CFG%' or departmentNm like 'IPG%' or departmentNm like 'EIG%' or departmentNm like '%VICE%'THEN 'IPG' ELSE  [CostCenterNm] END as IsIPGCostCenter",
+              "from [WORKER_PUBLIC]",
+              "where [IsActive] =1",
+              "and [ShortID] is not null",
+              "",
+              "group by [ShortID],  departmentNm,  [CostCenterNm]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Config_docs",
+        "columns": [
+          {
+            "name": "release",
+            "dataType": "string",
+            "sourceColumn": "release",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "integration_guide",
+            "dataType": "string",
+            "sourceColumn": "integration_guide",
+            "sourceProviderType": "VarChar",
+            "dataCategory": "WebUrl"
+          },
+          {
+            "name": "datasheet",
+            "dataType": "string",
+            "sourceColumn": "datasheet",
+            "sourceProviderType": "VarChar",
+            "dataCategory": "WebUrl"
+          },
+          {
+            "name": "technical_reference_manual",
+            "dataType": "string",
+            "sourceColumn": "technical_reference_manual",
+            "dataCategory": "WebUrl"
+          },
+          {
+            "name": "latest_release_notes",
+            "dataType": "string",
+            "sourceColumn": "latest_release_notes",
+            "dataCategory": "WebUrl"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Query",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "select ",
+                "[release],",
+                "max([integration_guide]) as [integration_guide],",
+                "max([datasheet]) as [datasheet],",
+                "max([technical_reference_manual]) as [technical_reference_manual],",
+                "max([latest_release_notes]) as [latest_release_notes]",
+                "from(",
+                "select distinct",
+                "[release]",
+                ",[published_document.doc_type]",
+                ",[published_document.url],",
+                "CHARINDEX('https', [published_document.url], 0) as [first index],",
+                "CHARINDEX('\" target', [published_document.url], 0 )- [first index] as [length],",
+                "case when [length] <0 then [first index] else [length] end as [new length],",
+                "substring([published_document.url],[first index],[new length] ) as [URL],",
+                "CASE when [published_document.doc_type] = 'integration_guide' then [URL] end as [integration_guide]",
+                ",CASE when [published_document.doc_type] = 'datasheet' then [URL] end as [datasheet]",
+                ",CASE when [published_document.doc_type] = 'technical_reference_manual' then [URL] end as [technical_reference_manual]",
+                ",CASE when [published_document.doc_type] = 'latest_release_notes' then [URL] end as [latest_release_notes]",
+                "from [ES.release_central.published_document]",
+                "where [published_document.doc_type] in ('datasheet','integration_guide','technical_reference_manual','latest_release_notes') and release is not null and release <>'')docs",
+                "",
+                "group by",
+                "[release]"
+              ],
+              "dataSource": "IBI"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select ",
+                  "[release],",
+                  "max([integration_guide]) as [integration_guide],",
+                  "max([datasheet]) as [datasheet],",
+                  "max([technical_reference_manual]) as [technical_reference_manual],",
+                  "max([latest_release_notes]) as [latest_release_notes]",
+                  "from(",
+                  "select distinct",
+                  "[release]",
+                  ",[published_document.doc_type]",
+                  ",[published_document.url],",
+                  "CHARINDEX('https', [published_document.url], 0) as [first index],",
+                  "CHARINDEX('\" target', [published_document.url], 0 )- [first index] as [length],",
+                  "case when [length] <0 then [first index] else [length] end as [new length],",
+                  "substring([published_document.url],[first index],[new length] ) as [URL],",
+                  "CASE when [published_document.doc_type] = 'integration_guide' then [URL] end as [integration_guide]",
+                  ",CASE when [published_document.doc_type] = 'datasheet' then [URL] end as [datasheet]",
+                  ",CASE when [published_document.doc_type] = 'technical_reference_manual' then [URL] end as [technical_reference_manual]",
+                  ",CASE when [published_document.doc_type] = 'latest_release_notes' then [URL] end as [latest_release_notes]",
+                  "from [ES.release_central.published_document]",
+                  "where [published_document.doc_type] in ('datasheet','integration_guide','technical_reference_manual','latest_release_notes') and release is not null and release <>'')docs",
+                  "",
+                  "group by",
+                  "[release]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "select ",
+              "[release],",
+              "max([integration_guide]) as [integration_guide],",
+              "max([datasheet]) as [datasheet],",
+              "max([technical_reference_manual]) as [technical_reference_manual],",
+              "max([latest_release_notes]) as [latest_release_notes]",
+              "from(",
+              "select distinct",
+              "[release]",
+              ",[published_document.doc_type]",
+              ",[published_document.url],",
+              "CHARINDEX('https', [published_document.url], 0) as [first index],",
+              "CHARINDEX('\" target', [published_document.url], 0 )- [first index] as [length],",
+              "case when [length] <0 then [first index] else [length] end as [new length],",
+              "substring([published_document.url],[first index],[new length] ) as [URL],",
+              "CASE when [published_document.doc_type] = 'integration_guide' then [URL] end as [integration_guide]",
+              ",CASE when [published_document.doc_type] = 'datasheet' then [URL] end as [datasheet]",
+              ",CASE when [published_document.doc_type] = 'technical_reference_manual' then [URL] end as [technical_reference_manual]",
+              ",CASE when [published_document.doc_type] = 'latest_release_notes' then [URL] end as [latest_release_notes]",
+              "from [ES.release_central.published_document]",
+              "where [published_document.doc_type] in ('datasheet','integration_guide','technical_reference_manual','latest_release_notes') and release is not null and release <>'')docs",
+              "",
+              "group by",
+              "[release]"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Query"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select ",
+              "[release],",
+              "max([integration_guide]) as [integration_guide],",
+              "max([datasheet]) as [datasheet],",
+              "max([technical_reference_manual]) as [technical_reference_manual],",
+              "max([latest_release_notes]) as [latest_release_notes]",
+              "from(",
+              "select distinct",
+              "[release]",
+              ",[published_document.doc_type]",
+              ",[published_document.url],",
+              "CHARINDEX('https', [published_document.url], 0) as [first index],",
+              "CHARINDEX('\" target', [published_document.url], 0 )- [first index] as [length],",
+              "case when [length] <0 then [first index] else [length] end as [new length],",
+              "substring([published_document.url],[first index],[new length] ) as [URL],",
+              "CASE when [published_document.doc_type] = 'integration_guide' then [URL] end as [integration_guide]",
+              ",CASE when [published_document.doc_type] = 'datasheet' then [URL] end as [datasheet]",
+              ",CASE when [published_document.doc_type] = 'technical_reference_manual' then [URL] end as [technical_reference_manual]",
+              ",CASE when [published_document.doc_type] = 'latest_release_notes' then [URL] end as [latest_release_notes]",
+              "from [ES.release_central.published_document]",
+              "where [published_document.doc_type] in ('datasheet','integration_guide','technical_reference_manual','latest_release_notes') and release is not null and release <>'')docs",
+              "",
+              "group by",
+              "[release]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "config_gen_fam",
+        "columns": [
+          {
+            "name": "Generation",
+            "dataType": "string",
+            "sourceColumn": "Generation",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "old_family",
+            "dataType": "string",
+            "sourceColumn": "old_family",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Family",
+            "dataType": "string",
+            "sourceColumn": "Family",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Gladius",
+            "dataType": "string",
+            "sourceColumn": "Gladius",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Architecture_Lead",
+            "dataType": "string",
+            "sourceColumn": "Architecture_Lead",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Product_Owner",
+            "dataType": "string",
+            "sourceColumn": "Product_Owner",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Support_Lead",
+            "dataType": "string",
+            "sourceColumn": "Support_Lead",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Execution_Lead",
+            "dataType": "string",
+            "sourceColumn": "Execution_Lead",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Program_Manager",
+            "dataType": "string",
+            "sourceColumn": "Program_Manager",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Suborg",
+            "dataType": "string",
+            "sourceColumn": "Suborg"
+          },
+          {
+            "name": "Supplier",
+            "dataType": "string",
+            "sourceColumn": "Supplier"
+          },
+          {
+            "type": "calculated",
+            "name": "Architecture_Lead_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Architecture_Lead])"
+          },
+          {
+            "type": "calculated",
+            "name": "Product_Owner_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Product_Owner])"
+          },
+          {
+            "type": "calculated",
+            "name": "Support_Lead_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Support_Lead])"
+          },
+          {
+            "type": "calculated",
+            "name": "Execution_Lead_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Execution_Lead])"
+          },
+          {
+            "type": "calculated",
+            "name": "Program_Manager_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Program_Manager])"
+          },
+          {
+            "name": "Description",
+            "dataType": "string",
+            "sourceColumn": "Description"
+          },
+          {
+            "type": "calculated",
+            "name": "Last Data Refresh",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "NOW() & \" PST\""
+          },
+          {
+            "name": "IsActiveIP",
+            "dataType": "string",
+            "sourceColumn": "IsActiveIP"
+          },
+          {
+            "name": "Validation_Architect",
+            "dataType": "string",
+            "sourceColumn": "Validation_Architect"
+          },
+          {
+            "name": "GM",
+            "dataType": "string",
+            "sourceColumn": "GM"
+          },
+          {
+            "type": "calculated",
+            "name": "GM_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[GM])"
+          },
+          {
+            "type": "calculated",
+            "name": "IPvalidation_Architect_Name",
+            "dataType": "string",
+            "isDataTypeInferred": false,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Validation_Architect])"
+          },
+          {
+            "name": "Execution_Lead_forIEapp",
+            "dataType": "string",
+            "sourceColumn": "Execution_Lead_forIEapp"
+          },
+          {
+            "type": "calculated",
+            "name": "IP_Execution_Lead_Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[User_Name],worker_public[User_Idsid],[Execution_Lead_forIEapp])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGDepartment",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "LOOKUPVALUE(worker_public[IsIPGCostCenter],worker_public[User_Idsid],[Program_Manager])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPG_Architect_Lead",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "if((ISBLANK([generation.architecture_lead])||[generation.architecture_lead]= \"\"||[generation.architecture_lead]= \"blank\")&&(ISBLANK([Architecture_Lead])||[Architecture_Lead]= \"\"), \"No Architect Lead filed in Carbon\", IF(ISBLANK([generation.architecture_lead])||[generation.architecture_lead]= \"\"||[generation.architecture_lead]= \"blank\",\"defaults to IP Family Contact\", if(ISBLANK([Architecture_Lead])||[Architecture_Lead]= \"\", \"No Architect Lead filed in Carbontesting\", if(ISBLANK([IsIPGArchitectLead]),\"Architect Lead left Intel\", [IsIPGArchitectLead]))))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGExecutionLead",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " LOOKUPVALUE(worker_public[IsIPG],worker_public[User_Idsid],[Execution_Lead])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPG_Execution_Lead",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "if((ISBLANK([generation.execution_lead])||[generation.execution_lead]=\"\"||[generation.execution_lead]=\"blank\")&&(ISBLANK([Execution_Lead])||[Execution_Lead]= \"\"), \"No Execution Lead filed in Carbon\", if(ISBLANK([Execution_Lead])||[Execution_Lead]= \"\"||[generation.execution_lead]=\"blank\", \"defaults to IP Family Contact\", if(ISBLANK([IsIPGExecutionLead]), \"Execution Lead left Intel\",   [IsIPGExecutionLead])))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGPM",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " LOOKUPVALUE(worker_public[IsIPG],worker_public[User_Idsid],[Program_Manager])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPG_Program_Manager",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "if(([generation.program_manager] in {\"blank\", \"\"}||ISBLANK([generation.program_manager])) &&(ISBLANK([Program_Manager])||[Program_Manager]= \"\"),  \"No PM filed in Carbon\", if(ISBLANK([Program_Manager])|| [Program_Manager]= \"\", \"default to IP Family contacts\", if(ISBLANK([IsIPGPM]),\"PM left Intel\",  [IsIPGPM])))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGArchitectLead",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " LOOKUPVALUE(worker_public[IsIPG],worker_public[User_Idsid],[Architecture_Lead])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPG_Program_Manage_color",
+            "dataType": "int64",
+            "isDataTypeInferred": false,
+            "expression": "if([IsIPG_Program_Manager]  = \"PM left Intel\", 4, if([IsIPG_Program_Manager]=\"No PM filed in Carbon\", 3, if([IsIPG_Program_Manager]=\"non-IPG\", 2,1)))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPG_Execution_Lead_color",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "if([isIPG_Execution_Lead]  = \"Execution Lead left Intel\", 4, if([isIPG_Execution_Lead]=\"No Execution Lead filed in Carbon\", 3, if([isIPG_Execution_Lead]=\"non-IPG\", 2,1)))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPG_Architect_Lead_color",
+            "dataType": "int64",
+            "isDataTypeInferred": false,
+            "expression": "if([isIPG_Architect_Lead]  = \"Architect Lead left Intel\", 4, if([isIPG_Architect_Lead]=\"No Architect Lead filed in Carbon\", 3, if([isIPG_Architect_Lead]=\"non-IPG\", 2,1)))"
+          },
+          {
+            "name": "generation.architecture_lead",
+            "dataType": "string",
+            "sourceColumn": "generation.architecture_lead"
+          },
+          {
+            "name": "generation.product_owner",
+            "dataType": "string",
+            "sourceColumn": "generation.product_owner"
+          },
+          {
+            "name": "generation.support_lead",
+            "dataType": "string",
+            "sourceColumn": "generation.support_lead"
+          },
+          {
+            "name": "generation.execution_lead",
+            "dataType": "string",
+            "sourceColumn": "generation.execution_lead"
+          },
+          {
+            "name": "generation.program_manager",
+            "dataType": "string",
+            "sourceColumn": "generation.program_manager"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGProductOwner",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " LOOKUPVALUE(worker_public[IsIPG],worker_public[User_Idsid],[Product_Owner])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGProduct_Owner",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "if(([generation.Product_owner] in {\"blank\", \"\"}||ISBLANK([generation.Product_owner])) &&(ISBLANK([Product_owner])||[Product_owner]= \"\"),  \"No Product Owner filed in Carbon\", if(ISBLANK([Product_owner])|| [Product_owner]= \"\", \"default to IP Family contacts\", if(ISBLANK([IsIPGProductOwner]),\"Product Owner left Intel\",  [IsIPGProductOwner])))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGProduct_Owner_color",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "if([IsIPGProduct_Owner]  = \"Product Owner left Intel\", 4, if([IsIPGProduct_Owner]=\"No Product Owner filed in Carbon\", 3, if([IsIPGProduct_Owner]=\"non-IPG\", 2,1)))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGSupportLead",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " LOOKUPVALUE(worker_public[IsIPG],worker_public[User_Idsid],[Support_Lead])"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGSupport_Lead",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "if(([generation.Support_Lead] in {\"blank\", \"\"}||ISBLANK([generation.Support_Lead])) &&(ISBLANK([Support_Lead])||[Support_Lead]= \"\"),  \"No Support Lead filed in Carbon\", if(ISBLANK([Support_Lead])|| [Support_Lead]= \"\", \"default to IP Family contacts\", if(ISBLANK([IsIPGSupportLead]),\"Support Lead left Intel\",  [IsIPGSupportLead])))"
+          },
+          {
+            "type": "calculated",
+            "name": "IsIPGSupport_Lead_color",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "if([IsIPGSupport_Lead]  = \"Support Lead left Intel\", 4, if([IsIPGSupport_Lead]=\"No Support Lead filed in Carbon\", 3, if([IsIPGSupport_Lead]=\"non-IPG\", 2,1)))"
+          },
+          {
+            "name": "generation.process_node",
+            "dataType": "string",
+            "sourceColumn": "generation.process_node"
+          },
+          {
+            "name": "generation_description",
+            "dataType": "string",
+            "sourceColumn": "generation_description"
+          },
+          {
+            "name": "configuration",
+            "dataType": "string",
+            "sourceColumn": "configuration"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "config_gen_fam",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "select distinct ",
+                "[Architecture_Lead]",
+                ",[Description]",
+                ",[Execution_Lead]",
+                ",[Execution_Lead_forIEapp]",
+                ",[Family]",
+                ",[Generation]",
+                ",configuration",
+                ",[generation.architecture_lead]",
+                ",[generation.execution_lead]",
+                ",[generation.product_owner]",
+                ",[generation.program_manager]",
+                ",[generation.support_lead]",
+                ",[Gladius]",
+                ",[GM]",
+                ",[IsActiveIP]",
+                ",[old_family]",
+                ",[Product_Owner]",
+                ",[Program_Manager]",
+                ",devsuborg as [Suborg]",
+                ",ip_supplier as [Supplier]",
+                ",[Support_Lead]",
+                ",[Validation_Architect]",
+                ",[generation.process_node]",
+                ",[generation_description]",
+                "",
+                "from v_ipg_contacts_productcatalog"
+              ],
+              "dataSource": "IBI"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select distinct ",
+                  "[Architecture_Lead]",
+                  ",[Description]",
+                  ",[Execution_Lead]",
+                  ",[Execution_Lead_forIEapp]",
+                  ",[Family]",
+                  ",[Generation]",
+                  ",configuration",
+                  ",[generation.architecture_lead]",
+                  ",[generation.execution_lead]",
+                  ",[generation.product_owner]",
+                  ",[generation.program_manager]",
+                  ",[generation.support_lead]",
+                  ",[Gladius]",
+                  ",[GM]",
+                  ",[IsActiveIP]",
+                  ",[old_family]",
+                  ",[Product_Owner]",
+                  ",[Program_Manager]",
+                  ",devsuborg as [Suborg]",
+                  ",ip_supplier as [Supplier]",
+                  ",[Support_Lead]",
+                  ",[Validation_Architect]",
+                  ",[generation.process_node]",
+                  ",[generation_description]",
+                  "",
+                  "from v_ipg_contacts_productcatalog</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "measures": [
+          {
+            "name": "NonIPGArchitect_Lead",
+            "expression": "CALCULATE(DISTINCTCOUNT(config_gen_fam[Architecture_Lead]), config_gen_fam[IsIPG_Architect_Lead]<>\"IPG\")"
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "select distinct ",
+              "[Architecture_Lead]",
+              ",[Description]",
+              ",[Execution_Lead]",
+              ",[Execution_Lead_forIEapp]",
+              ",[Family]",
+              ",[Generation]",
+              ",configuration",
+              ",[generation.architecture_lead]",
+              ",[generation.execution_lead]",
+              ",[generation.product_owner]",
+              ",[generation.program_manager]",
+              ",[generation.support_lead]",
+              ",[Gladius]",
+              ",[GM]",
+              ",[IsActiveIP]",
+              ",[old_family]",
+              ",[Product_Owner]",
+              ",[Program_Manager]",
+              ",devsuborg as [Suborg]",
+              ",ip_supplier as [Supplier]",
+              ",[Support_Lead]",
+              ",[Validation_Architect]",
+              ",[generation.process_node]",
+              ",[generation_description]",
+              "",
+              "from v_ipg_contacts_productcatalog"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "config_gen_fam"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select distinct ",
+              "[Architecture_Lead]",
+              ",[Description]",
+              ",[Execution_Lead]",
+              ",[Execution_Lead_forIEapp]",
+              ",[Family]",
+              ",[Generation]",
+              ",configuration",
+              ",[generation.architecture_lead]",
+              ",[generation.execution_lead]",
+              ",[generation.product_owner]",
+              ",[generation.program_manager]",
+              ",[generation.support_lead]",
+              ",[Gladius]",
+              ",[GM]",
+              ",[IsActiveIP]",
+              ",[old_family]",
+              ",[Product_Owner]",
+              ",[Program_Manager]",
+              ",devsuborg as [Suborg]",
+              ",ip_supplier as [Supplier]",
+              ",[Support_Lead]",
+              ",[Validation_Architect]",
+              ",[generation.process_node]",
+              ",[generation_description]",
+              "",
+              "from v_ipg_contacts_productcatalog</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Industry_domain",
+        "columns": [
+          {
+            "name": "family.name",
+            "dataType": "string",
+            "sourceColumn": "family.name",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "dyn_lookup.lookup_name",
+            "dataType": "string",
+            "sourceColumn": "dyn_lookup.lookup_name",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "IntelDomain",
+            "dataType": "string",
+            "sourceColumn": "IntelDomain",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "IndustryDomain",
+            "dataType": "string",
+            "sourceColumn": "IndustryDomain",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "Domain",
+            "dataType": "string",
+            "sourceColumn": "Domain"
+          },
+          {
+            "name": "SubDomain",
+            "dataType": "string",
+            "sourceColumn": "SubDomain"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Industry_domain",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "select",
+                "[family.name]",
+                ",[dyn_lookup.lookup_name]",
+                ",[dyn_lookup.value] as IntelDomain",
+                ",[shared_lookup.dyn_lookup.industry_domain] as IndustryDomain",
+                "-- for example if IndustryDomain is fundamental.clocking_and_pll then the first case statement will get everything to the left of period",
+                "-- and the second case statement will get everything to the right of the period(clocking_and_pll)",
+                ",case when CHARINDEX('.',IndustryDomain)>0 ",
+                "           then SUBSTRING(IndustryDomain,1,CHARINDEX('.',IndustryDomain)-1) ",
+                "           else IndustryDomain",
+                "   end as Domain",
+                ",case when CHARINDEX('.',IndustryDomain)>0 ",
+                "           then SUBSTRING(IndustryDomain,CHARINDEX('.',IndustryDomain)+1,len(IndustryDomain))  ",
+                "           else null ",
+                "  end as SubDomain ",
+                "from[ES.shared_lookup.dyn_lookup]dyn",
+                "join [ES.release_central.family]fam",
+                "on fam.[domain] = [dyn_lookup.value]",
+                "where  [dyn_lookup.lookup_name] in 'domain'",
+                "and [shared_lookup.dyn_lookup.industry_domain] is not NULL"
+              ],
+              "dataSource": "IBI"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select",
+                  "[family.name]",
+                  ",[dyn_lookup.lookup_name]",
+                  ",[dyn_lookup.value] as IntelDomain",
+                  ",[shared_lookup.dyn_lookup.industry_domain] as IndustryDomain",
+                  "-- for example if IndustryDomain is fundamental.clocking_and_pll then the first case statement will get everything to the left of period",
+                  "-- and the second case statement will get everything to the right of the period(clocking_and_pll)",
+                  ",case when CHARINDEX('.',IndustryDomain)>0 ",
+                  "           then SUBSTRING(IndustryDomain,1,CHARINDEX('.',IndustryDomain)-1) ",
+                  "           else IndustryDomain",
+                  "   end as Domain",
+                  ",case when CHARINDEX('.',IndustryDomain)>0 ",
+                  "           then SUBSTRING(IndustryDomain,CHARINDEX('.',IndustryDomain)+1,len(IndustryDomain))  ",
+                  "           else null ",
+                  "  end as SubDomain ",
+                  "from[ES.shared_lookup.dyn_lookup]dyn",
+                  "join [ES.release_central.family]fam",
+                  "on fam.[domain] = [dyn_lookup.value]",
+                  "where  [dyn_lookup.lookup_name] in 'domain'",
+                  "and [shared_lookup.dyn_lookup.industry_domain] is not NULL</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "select",
+              "[family.name]",
+              ",[dyn_lookup.lookup_name]",
+              ",[dyn_lookup.value] as IntelDomain",
+              ",[shared_lookup.dyn_lookup.industry_domain] as IndustryDomain",
+              "-- for example if IndustryDomain is fundamental.clocking_and_pll then the first case statement will get everything to the left of period",
+              "-- and the second case statement will get everything to the right of the period(clocking_and_pll)",
+              ",case when CHARINDEX('.',IndustryDomain)>0 ",
+              "           then SUBSTRING(IndustryDomain,1,CHARINDEX('.',IndustryDomain)-1) ",
+              "           else IndustryDomain",
+              "   end as Domain",
+              ",case when CHARINDEX('.',IndustryDomain)>0 ",
+              "           then SUBSTRING(IndustryDomain,CHARINDEX('.',IndustryDomain)+1,len(IndustryDomain))  ",
+              "           else null ",
+              "  end as SubDomain ",
+              "from[ES.shared_lookup.dyn_lookup]dyn",
+              "join [ES.release_central.family]fam",
+              "on fam.[domain] = [dyn_lookup.value]",
+              "where  [dyn_lookup.lookup_name] in 'domain'",
+              "and [shared_lookup.dyn_lookup.industry_domain] is not NULL"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Industry_domain"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select",
+              "[family.name]",
+              ",[dyn_lookup.lookup_name]",
+              ",[dyn_lookup.value] as IntelDomain",
+              ",[shared_lookup.dyn_lookup.industry_domain] as IndustryDomain",
+              "-- for example if IndustryDomain is fundamental.clocking_and_pll then the first case statement will get everything to the left of period",
+              "-- and the second case statement will get everything to the right of the period(clocking_and_pll)",
+              ",case when CHARINDEX('.',IndustryDomain)>0 ",
+              "           then SUBSTRING(IndustryDomain,1,CHARINDEX('.',IndustryDomain)-1) ",
+              "           else IndustryDomain",
+              "   end as Domain",
+              ",case when CHARINDEX('.',IndustryDomain)>0 ",
+              "           then SUBSTRING(IndustryDomain,CHARINDEX('.',IndustryDomain)+1,len(IndustryDomain))  ",
+              "           else null ",
+              "  end as SubDomain ",
+              "from[ES.shared_lookup.dyn_lookup]dyn",
+              "join [ES.release_central.family]fam",
+              "on fam.[domain] = [dyn_lookup.value]",
+              "where  [dyn_lookup.lookup_name] in 'domain'",
+              "and [shared_lookup.dyn_lookup.industry_domain] is not NULL</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "QueryReleaseCentralGen",
+        "columns": [
+          {
+            "name": "generation.process_node",
+            "dataType": "string",
+            "sourceColumn": "generation.process_node",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "generation.name",
+            "dataType": "string",
+            "sourceColumn": "generation.name",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "generation_description",
+            "dataType": "string",
+            "sourceColumn": "generation_description"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "QueryReleaseCentralGen",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "select distinct ",
+                "[generation.process_node]",
+                ",[description] as [generation_description]",
+                ",[generation.name] ",
+                "from [ES.release_central.generation]"
+              ],
+              "dataSource": "IBI"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select distinct ",
+                  "[generation.process_node]",
+                  ",[description] as [generation_description]",
+                  ",[generation.name] ",
+                  "from [ES.release_central.generation]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "select distinct ",
+              "[generation.process_node]",
+              ",[description] as [generation_description]",
+              ",[generation.name] ",
+              "from [ES.release_central.generation]"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "QueryReleaseCentralGen"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select distinct ",
+              "[generation.process_node]",
+              ",[description] as [generation_description]",
+              ",[generation.name] ",
+              "from [ES.release_central.generation]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "8deaa3e8-1ed4-4224-b68d-c8a1eb1ce93f",
+        "fromTable": "config_gen_fam",
+        "fromColumn": "old_family",
+        "toTable": "Industry_domain",
+        "toColumn": "family.name"
+      },
+      {
+        "name": "ca457014-f56c-44bf-b38b-f7354c17ee18",
+        "fromTable": "config_gen_fam",
+        "fromColumn": "Generation",
+        "toTable": "QueryReleaseCentralGen",
+        "toColumn": "generation.name",
+        "crossFilteringBehavior": "bothDirections"
+      }
+    ],
+    "roles": [
+      {
+        "name": "IPG_Developers",
+        "modelPermission": "administrator",
+        "members": [
+          {
+            "memberName": "AMR\\IPG_Dashboard_Developers",
+            "memberId": "S-1-5-21-725345543-602162358-527237240-4603422"
+          }
+        ]
+      },
+      {
+        "name": "IPG_InternalUsers",
+        "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "AMR\\IPG_Dashboard_SuperUsers",
+            "memberId": "S-1-5-21-725345543-602162358-527237240-4603439"
+          }
+        ]
+      },
+      {
+        "name": "BI user",
+        "modelPermission": "administrator",
+        "members": [
+          {
+            "memberName": "AMR\\ssas_msbitabmd",
+            "memberId": "S-1-5-21-725345543-602162358-527237240-2406644"
+          }
+        ]
+      },
+      {
+        "name": "Intel DD",
+        "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "CORP\\Employee",
+            "memberId": "S-1-5-21-823518204-2139871995-682003330-2750"
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "500"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
